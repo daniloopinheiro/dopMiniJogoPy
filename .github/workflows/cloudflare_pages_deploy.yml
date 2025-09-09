@@ -14,10 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Verificar estrutura de diretórios
+      - name: Verificar estrutura do repositório
         run: |
-          echo "Diretório atual: $PWD"
-          ls -la
+          echo "Estrutura do repositório:"
+          ls -la ${{ github.workspace }}
 
       - name: Instalar dependências
         run: |
