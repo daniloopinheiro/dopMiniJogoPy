@@ -32,13 +32,13 @@ jobs:
           python -m venv venv
           source venv/bin/activate
           pip install -r requirements.txt
-        working-directory: ${{ github.workspace }}/dopMiniJogoPy
+        working-directory: ${{ github.workspace }}
 
       - name: Collect static files
         run: |
           source venv/bin/activate
           python manage.py collectstatic --noinput --clear
-        working-directory: ${{ github.workspace }}/dopMiniJogoPy
+        working-directory: ${{ github.workspace }}
         env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DEBUG: False
@@ -48,7 +48,7 @@ jobs:
         run: |
           source venv/bin/activate
           python manage.py distill-local --force staticsite/
-        working-directory: ${{ github.workspace }}/dopMiniJogoPy
+        working-directory: ${{ github.workspace }}
         env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DEBUG: False
@@ -62,7 +62,7 @@ jobs:
             cp -r media deploy_static/media/
           fi
           cp -r staticsite/* deploy_static/ 2>/dev/null || echo "No staticsite directory"
-        working-directory: ${{ github.workspace }}/dopMiniJogoPy
+        working-directory: ${{ github.workspace }}
 
       - name: Create 404.html
         run: |
@@ -75,7 +75,7 @@ jobs:
             </body>
           </html>
           EOF
-        working-directory: ${{ github.workspace }}/dopMiniJogoPy
+        working-directory: ${{ github.workspace }}
 
       - name: Create _redirects file for Cloudflare Pages
         run: |
@@ -85,7 +85,7 @@ jobs:
           /static/*  /static/:splat  200
           /media/*   /media/:splat   200
           EOF
-        working-directory: ${{ github.workspace }}/dopMiniJogoPy
+        working-directory: ${{ github.workspace }}
 
       - name: List files for deployment
         run: |
@@ -93,7 +93,7 @@ jobs:
           ls -la deploy_static/
           echo "Estrutura completa:"
           find deploy_static/ -type f | head -20
-        working-directory: ${{ github.workspace }}/dopMiniJogoPy
+        working-directory: ${{ github.workspace }}
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
