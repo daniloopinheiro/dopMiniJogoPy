@@ -23,12 +23,19 @@ jobs:
         run: |
           python -m venv venv
           . venv/bin/activate && pip install -r requirements.txt
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
+
+      - name: Testar importação do settings
+        run: |
+          . venv/bin/activate && python -c "import minijogopy.settings; print('Import OK')"
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
+        env:
+          DJANGO_SETTINGS_MODULE: minijogopy.settings
 
       - name: Coletar arquivos estáticos
         run: |
           . venv/bin/activate && python manage.py collectstatic --noinput --clear
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
         env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DEBUG: False
@@ -37,7 +44,7 @@ jobs:
       - name: Gerar site estático com Django-Distill (opcional)
         run: |
           . venv/bin/activate && python manage.py distill-local --force staticsite/
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
         env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DEBUG: False
@@ -51,7 +58,7 @@ jobs:
             cp -r media deploy_static/media/
           fi
           cp -r staticsite/* deploy_static/ 2>/dev/null || echo "No staticsite directory"
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
 
       - name: Criar página 404.html
         run: |
@@ -64,7 +71,7 @@ jobs:
             </body>
           </html>
           EOF
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
 
       - name: Criar arquivo _redirects para Cloudflare Pages
         run: |
@@ -74,7 +81,7 @@ jobs:
           /static/*  /static/:splat  200
           /media/*   /media/:splat   200
           EOF
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
 
       - name: Listar arquivos para deploy
         run: |
@@ -82,7 +89,7 @@ jobs:
           ls -la deploy_static/
           echo "Estrutura completa:"
           find deploy_static/ -type f | head -20
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
@@ -90,3 +97,4 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           command: pages deploy deploy_static --project-name=minijogo-py
+          working-directory: ${{ github.workspace }}/dopMiniJogoPy
