@@ -24,7 +24,7 @@ jobs:
 
       - name: Collect static files
         run: python manage.py collectstatic --noinput --clear
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
         env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DEBUG: False
@@ -32,7 +32,7 @@ jobs:
 
       - name: Generate static site with Django-Distill (optional)
         run: python manage.py distill-local --force staticsite/
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
         env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DEBUG: False
@@ -45,7 +45,7 @@ jobs:
             cp -r media deploy_static/media/
           fi
           cp -r staticsite/* deploy_static/ 2>/dev/null || echo "No staticsite directory"
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
           
       - name: Create index.html for SPA behavior
         run: |
