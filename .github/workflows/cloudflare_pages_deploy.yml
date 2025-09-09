@@ -13,23 +13,22 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: 'pip'
-          
+
+      - name: Set working directory
+        run: 'echo "Diretório de trabalho: $GITHUB_WORKSPACE"'
+
       - name: Collect static files
         run: |
+          cd $GITHUB_WORKSPACE
           python manage.py collectstatic --noinput --clear
         env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DEBUG: False
           DJANGO_SETTINGS_MODULE: minijogopy.settings
-          
+
       - name: Generate static site with Django-Distill (optional)
         run: |
+          cd $GITHUB_WORKSPACE
           python manage.py distill-local --force staticsite/
         env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
