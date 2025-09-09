@@ -28,7 +28,7 @@ jobs:
       - name: Testar importação do settings
         run: |
           . venv/bin/activate && python -c "import minijogopy.settings; print('Import OK')"
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy/dopMiniJogoPy
         env:
           DJANGO_SETTINGS_MODULE: minijogopy.settings
 
