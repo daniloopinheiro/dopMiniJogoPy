@@ -32,6 +32,12 @@ jobs:
             npm ci
           fi
 
+      - name: Build frontend assets (if exists)
+        run: |
+          if [ -f package.json ]; then
+            npm run build
+          fi
+          
       - name: Collect static files
         run: |
           python manage.py collectstatic --noinput --clear
@@ -39,12 +45,6 @@ jobs:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DEBUG: False
           DJANGO_SETTINGS_MODULE: minijogopy.settings
-          
-      - name: Build frontend assets (if exists)
-        run: |
-          if [ -f package.json ]; then
-            npm run build
-          fi
           
       - name: Generate static site with Django-Distill (optional)
         run: |
