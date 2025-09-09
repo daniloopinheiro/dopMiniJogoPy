@@ -17,6 +17,11 @@ jobs:
       - name: Set working directory
         run: 'echo "Diretório de trabalho: $GITHUB_WORKSPACE"'
 
+      - name: List files after checkout
+        run: |
+          echo "Arquivos e pastas:"
+          ls -la ${{ github.workspace }}
+
       - name: Collect static files
         run: python manage.py collectstatic --noinput --clear
         working-directory: ${{ github.workspace }}
