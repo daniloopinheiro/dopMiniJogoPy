@@ -28,7 +28,7 @@ jobs:
       - name: Coletar arquivos estáticos
         run: |
           . venv/bin/activate && python manage.py collectstatic --noinput --clear
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
         env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DEBUG: False
