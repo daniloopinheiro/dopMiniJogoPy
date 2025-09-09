@@ -24,7 +24,7 @@ jobs:
 
       - name: Collect static files
         run: python manage.py collectstatic --noinput --clear
-        working-directory: ${{ github.workspace }}/dopMiniJogoPy
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy/minijogopy
         env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DEBUG: False
