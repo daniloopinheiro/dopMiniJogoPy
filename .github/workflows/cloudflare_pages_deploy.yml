@@ -18,18 +18,16 @@ jobs:
         run: 'echo "Diretório de trabalho: $GITHUB_WORKSPACE"'
 
       - name: Collect static files
-        run: |
-          cd $GITHUB_WORKSPACE
-          python manage.py collectstatic --noinput --clear
+        run: python manage.py collectstatic --noinput --clear
+        working-directory: ${{ github.workspace }}
         env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DEBUG: False
           DJANGO_SETTINGS_MODULE: minijogopy.settings
 
       - name: Generate static site with Django-Distill (optional)
-        run: |
-          cd $GITHUB_WORKSPACE
-          python manage.py distill-local --force staticsite/
+        run: python manage.py distill-local --force staticsite/
+        working-directory: ${{ github.workspace }}
         env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DEBUG: False
@@ -42,6 +40,7 @@ jobs:
             cp -r media deploy_static/media/
           fi
           cp -r staticsite/* deploy_static/ 2>/dev/null || echo "No staticsite directory"
+        working-directory: ${{ github.workspace }}
           
       - name: Create index.html for SPA behavior
         run: |
