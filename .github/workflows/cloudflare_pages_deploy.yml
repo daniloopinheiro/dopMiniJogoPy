@@ -24,11 +24,11 @@ jobs:
           python -m venv venv
           . venv/bin/activate && pip install -r requirements.txt
         working-directory: ${{ github.workspace }}
-        
+
       - name: Testar importação do settings
         run: |
           . venv/bin/activate && python -c "import minijogopy.settings; print('Import OK')"
-        working-directory: ${{ github.workspace }}/dopMiniJogoPy/dopMiniJogoPy
+        working-directory: ${{ github.workspace }}
         env:
           DJANGO_SETTINGS_MODULE: minijogopy.settings
 
