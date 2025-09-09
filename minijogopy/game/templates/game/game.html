@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+    <h1>Rock Paper Scissors</h1>
+    {% if player_choice %}
+        <p>Your choice: {{ player_choice }}</p>
+        <p>Computer's choice: {{ computer_choice }}</p>
+        <p>Result: {{ result }}</p>
+    {% endif %}
+    <form method="get">
+        <label for="choice">Enter your choice (rock, paper, scissors):</label>
+        <input type="text" id="choice" name="choice">
+        <button type="submit">Play</button>
+    </form>
+</body>
+</html>
