@@ -19,42 +19,31 @@ jobs:
           echo "Diretório atual: $PWD"
           ls -la
 
-      - name: Set working directory
-        run: 'echo "Diretório de trabalho: $GITHUB_WORKSPACE"'
-
-      - name: List files after checkout
-        run: |
-          echo "Arquivos e pastas:"
-          ls -la ${{ github.workspace }}
-
-      - name: Install dependencies
+      - name: Instalar dependências
         run: |
           python -m venv venv
-          source venv/bin/activate
-          pip install -r requirements.txt
-        working-directory: ${{ github.workspace }}
+          . venv/bin/activate && pip install -r requirements.txt
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
 
-      - name: Collect static files
+      - name: Coletar arquivos estáticos
         run: |
-          source venv/bin/activate
-          python manage.py collectstatic --noinput --clear
-        working-directory: ${{ github.workspace }}
+          . venv/bin/activate && python manage.py collectstatic --noinput --clear
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
         env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DEBUG: False
           DJANGO_SETTINGS_MODULE: minijogopy.settings
 
-      - name: Generate static site with Django-Distill (opcional)
+      - name: Gerar site estático com Django-Distill (opcional)
         run: |
-          source venv/bin/activate
-          python manage.py distill-local --force staticsite/
-        working-directory: ${{ github.workspace }}
+          . venv/bin/activate && python manage.py distill-local --force staticsite/
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
         env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DEBUG: False
           DJANGO_SETTINGS_MODULE: minijogopy.settings
 
-      - name: Prepare static files for deployment
+      - name: Preparar arquivos para deploy
         run: |
           mkdir -p deploy_static
           cp -r staticfiles/* deploy_static/ 2>/dev/null || echo "No staticfiles directory"
@@ -62,9 +51,9 @@ jobs:
             cp -r media deploy_static/media/
           fi
           cp -r staticsite/* deploy_static/ 2>/dev/null || echo "No staticsite directory"
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
 
-      - name: Create 404.html
+      - name: Criar página 404.html
         run: |
           cat > deploy_static/404.html << 'EOF'
           <html>
@@ -75,9 +64,9 @@ jobs:
             </body>
           </html>
           EOF
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
 
-      - name: Create _redirects file for Cloudflare Pages
+      - name: Criar arquivo _redirects para Cloudflare Pages
         run: |
           cat > deploy_static/_redirects << 'EOF'
           /*    /index.html   200
@@ -85,15 +74,15 @@ jobs:
           /static/*  /static/:splat  200
           /media/*   /media/:splat   200
           EOF
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
 
-      - name: List files for deployment
+      - name: Listar arquivos para deploy
         run: |
           echo "Arquivos na pasta deploy_static:"
           ls -la deploy_static/
           echo "Estrutura completa:"
           find deploy_static/ -type f | head -20
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/dopMiniJogoPy
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
