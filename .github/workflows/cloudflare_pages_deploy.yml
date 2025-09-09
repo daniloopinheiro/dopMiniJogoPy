@@ -20,24 +20,6 @@ jobs:
           python-version: "3.11"
           cache: 'pip'
           
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-          cache: 'npm'
-
-      - name: Install Node.js dependencies (if exists)
-        run: |
-          if [ -f package.json ]; then
-            npm ci
-          fi
-
-      - name: Build frontend assets (if exists)
-        run: |
-          if [ -f package.json ]; then
-            npm run build
-          fi
-          
       - name: Collect static files
         run: |
           python manage.py collectstatic --noinput --clear
