@@ -5,14 +5,24 @@ Um bom exercício para praticar decisões condicionais, iterações e uso de mó
 
 ## 📑 Índice
 
-1. [Visão Geral](#visão-geral)
-2. [Instalação](#instalação)
-3. [Como Usar](#como-usar)
-4. [Configuração](#configuração)
-5. [Contribuições](#contribuições)
-6. [Artigos & Conteúdos](#artigos--conteúdos)
-7. [Licença](#licença)
-8. [Contato](#contato)
+- [dopMiniJogoPy Game](#dopminijogopy-game)
+  - [📑 Índice](#-índice)
+  - [Visão Geral](#visão-geral)
+  - [Instalação](#instalação)
+    - [Pré-requisitos](#pré-requisitos)
+    - [Clonando o repositório](#clonando-o-repositório)
+    - [Instalação das dependências](#instalação-das-dependências)
+  - [Como Usar](#como-usar)
+    - [Versão Terminal](#versão-terminal)
+    - [Versão Web](#versão-web)
+  - [Configuração](#configuração)
+  - [Contribuições](#contribuições)
+  - [Artigos \& Conteúdos](#artigos--conteúdos)
+  - [Licença](#licença)
+  - [Contato](#contato)
+    - [💬 Suporte Técnico](#-suporte-técnico)
+    - [👨‍💻 Autor](#-autor)
+    - [🏢 Empresas](#-empresas)
 
 ---
 
@@ -25,6 +35,7 @@ O jogo de pedra, papel e tesoura é um jogo manual no qual cada jogador escolhe 
 - Placar em tempo real
 - Validação de entrada do usuário
 - Opção de jogar múltiplas rodadas
+- **Nova funcionalidade:** Interface web utilizando Django
 
 **Regras do jogo:**
 - Pedra vence Tesoura
@@ -48,7 +59,7 @@ $ cd rock-paper-scissors-game
 **IMPORTANTE**: Instale as bibliotecas necessárias antes de executar o jogo:
 
 ```bash
-$ pip install termcolor pyfiglet colorama
+$ pip install termcolor pyfiglet colorama django
 ```
 
 Ou usando requirements.txt (se disponível):
@@ -60,7 +71,8 @@ $ pip install -r requirements.txt
 
 ## Como Usar
 
-Execute o arquivo principal para iniciar o jogo:
+### Versão Terminal
+Execute o arquivo principal para iniciar o jogo no terminal:
 
 ```bash
 $ python app.py
@@ -88,6 +100,20 @@ Score - You: 1 | Computer: 0
 Do you want to play again? (yes/no): yes
 ```
 
+### Versão Web
+Execute o servidor Django para iniciar o jogo na web:
+
+```bash
+$ python manage.py runserver
+```
+
+Acesse o jogo no navegador em `http://127.0.0.1:8000/`.
+
+**Como jogar:**
+1. Insira sua escolha (`rock`, `paper` ou `scissors`) no campo de entrada.
+2. Clique no botão "Play".
+3. Veja o resultado do jogo, incluindo a escolha do computador e o vencedor da rodada.
+
 ---
 
 ## Configuração
@@ -102,6 +128,7 @@ O jogo funciona diretamente após a instalação das dependências. Não requer 
 - `termcolor`: Para cores no texto
 - `pyfiglet`: Para ASCII art
 - `colorama`: Para compatibilidade de cores no Windows
+- `django`: Para a interface web
 
 ---
 
