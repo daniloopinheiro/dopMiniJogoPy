@@ -17,9 +17,28 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
+from django_distill import distill_path
 from game.views import game_view
+
+def get_choices():
+    # Lista de escolhas para gerar páginas estáticas
+    for choice in ['rock', 'paper', 'scissors']:
+        yield {'choice': choice}
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', game_view, name='game'),
+    distill_path(
+        '',
+        game_view,
+        name='game',
+        distill_func=lambda: [{}],  # sem parâmetro
+        distill_file='index.html'
+    ),
+    distill_path(
+        '<str:choice>/',
+        game_view,
+        name='game_choice',
+        distill_func=get_choices,
+        distill_file='{choice}.html'
+    ),
 ]

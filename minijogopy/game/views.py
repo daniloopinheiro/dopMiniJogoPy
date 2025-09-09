@@ -1,15 +1,15 @@
 from django.shortcuts import render
 import random
 
-def game_view(request):
+def game_view(request, choice=''):
     options = ['rock', 'paper', 'scissors']
-    player_choice = request.GET.get('choice', '').lower()
+    player_choice = choice or request.GET.get('choice', '').lower()
     computer_choice = random.choice(options)
     result = ""
 
     if player_choice not in options and player_choice != "":
         result = "Invalid choice. Please try again."
-    elif player_choice == computer_choice:
+    elif player_choice == computer_choice and player_choice != "":
         result = "It's a tie!"
     elif (player_choice == 'rock' and computer_choice == 'scissors') or \
          (player_choice == 'scissors' and computer_choice == 'paper') or \
